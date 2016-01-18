@@ -30,8 +30,10 @@ namespace MaruBatsuGame
     // 盤クラス。
     class Board
     {
+        // 列の長さ。
+        public const int NUM_ROW = 3;
         // マスの総数。
-        public const int NUM_MASU = 3 * 3;
+        public const int NUM_MASU = NUM_ROW * NUM_ROW;
         // 並びデータ。
         public static int[][] narabi_data = new int[][] {
             // 横の並び。
@@ -115,6 +117,31 @@ namespace MaruBatsuGame
                 }
             }
             return ret;
+        }
+
+        // 並びの集計を行う関数。
+        public bool narabi_shuukei(int narabi_index, out int maru, out int batsu)
+        {
+            int kara;
+            kara = maru = batsu = 0;
+            var narabi = narabi_data[narabi_index];
+            for (int i = 0; i < NUM_ROW; ++i)
+            {
+                var masu = get_masu(narabi[i]);
+                switch (masu)
+                {
+                    case Masu.EMPTY:
+                        ++kara;
+                        break;
+                    case Masu.MARU:
+                        ++maru;
+                        break;
+                    case Masu.BATSU:
+                        ++batsu;
+                        break;
+                }
+            }
+            return kara == NUM_ROW;
         }
     }
 
